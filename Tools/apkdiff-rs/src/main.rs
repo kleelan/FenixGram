@@ -46,10 +46,18 @@ fn compare_apks(first_path: &str, second_path: &str) -> Result<bool, Box<dyn std
     let mut second = ZipArchive::new(File::open(second_path)?)?;
 
     let first_indices: Vec<usize> = (0..first.len())
-        .filter(|&index| first.by_index(index).map_or(true, |entry| !is_ignored(entry.name())))
+        .filter(|&index| {
+            first
+                .by_index(index)
+                .map_or(true, |entry| !is_ignored(entry.name()))
+        })
         .collect();
     let second_indices: Vec<usize> = (0..second.len())
-        .filter(|&index| second.by_index(index).map_or(true, |entry| !is_ignored(entry.name())))
+        .filter(|&index| {
+            second
+                .by_index(index)
+                .map_or(true, |entry| !is_ignored(entry.name()))
+        })
         .collect();
 
     if first_indices.len() != second_indices.len() {
