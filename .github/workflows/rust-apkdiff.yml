@@ -1,0 +1,29 @@
+name: Rust APK diff
+
+on:
+  pull_request:
+    paths:
+      - "Tools/apkdiff-rs/**"
+      - ".github/workflows/rust-apkdiff.yml"
+  push:
+    paths:
+      - "Tools/apkdiff-rs/**"
+      - ".github/workflows/rust-apkdiff.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  apkdiff:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Tools/apkdiff-rs
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+      - run: cargo fmt --all -- --check
+      - run: cargo check
+      - run: cargo test

@@ -1,0 +1,13 @@
+[package]
+name = "apkdiff"
+version = "0.1.0"
+edition = "2021"
+description = "Compare the contents of two APK archives"
+license = "GPL-3.0-or-later"
+
+[[bin]]
+name = "apkdiff"
+path = "src/main.rs"
+
+[dependencies]
+zip = "2.2.2"
