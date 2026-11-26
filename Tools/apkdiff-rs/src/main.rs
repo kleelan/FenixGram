@@ -5,7 +5,6 @@ use std::collections::{HashMap, VecDeque};
 use std::env;
 use std::fs::File;
 use std::io::Read;
-use std::process::ExitCode;
 use zip::ZipArchive;
 
 const IGNORED_ENTRIES: [&str; 3] = [
@@ -100,11 +99,11 @@ fn compare_apks(first_path: &str, second_path: &str) -> Result<bool, Box<dyn std
     Ok(true)
 }
 
-fn run() -> ExitCode {
+fn run() -> i32 {
     let args: Vec<String> = env::args().collect();
     if args.len() != 3 {
         println!("Usage: apkdiff <pathToFirstApk> <pathToSecondApk>");
-        return ExitCode::from(1);
+        return 1;
     }
 
     let same = if args[1] == args[2] {
@@ -114,20 +113,20 @@ fn run() -> ExitCode {
             Ok(same) => same,
             Err(error) => {
                 eprintln!("apkdiff: {error}");
-                return ExitCode::from(2);
+                return 2;
             }
         }
     };
 
     if same {
         println!("APKs are the same!");
-        ExitCode::SUCCESS
+        0
     } else {
         println!("APKs are different!");
-        ExitCode::from(1)
+        1
     }
 }
 
 fn main() {
-    std::process::exit(run().code().unwrap_or(1));
+    std::process::exit(run());
 }
