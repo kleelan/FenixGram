@@ -4,7 +4,7 @@
 use std::collections::{HashMap, VecDeque};
 use std::env;
 use std::fs::File;
-use std::io::{self, Read};
+use std::io::Read;
 use std::process::ExitCode;
 use zip::ZipArchive;
 
@@ -120,6 +120,6 @@ fn run() -> ExitCode {
     }
 }
 
-fn main() -> io::Result<()> {
+fn main() {
     std::process::exit(run().code().unwrap_or(1));
 }
